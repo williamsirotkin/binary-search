@@ -1,0 +1,53 @@
+/**
+ * Implements a Binary Search on a sorted array.
+ *
+ */
+public class BinarySearch {
+
+    /**
+     * Returns a string from a string array of arguments that when truncated to the size of input, 
+     * is equivalent to input. 
+     *
+     * @param args the string array argument to search
+     * @param input the input to compare each input argument to
+     * @return the string that when truncated, is equivalent to input
+     */
+    public String getValidStringFromInput(String[] args, String input) {
+	int i = args.length / 2;
+	int argsLeft = args.length;
+
+	for (int j = 0; j < args.length; j++) {
+	    System.out.println(args[j]);
+	}
+	System.out.println("Input String: " + input);
+
+	while (argsLeft > 0) {
+	    //Ensuring input argument could even possibly be the input string
+	    if (args[i].length() < input.length()) {
+		if (args[i].compareTo(input.substring(0, args[i].length())) > 0) {
+		    argsLeft /= 2;
+		    i -= (((argsLeft + 1) / 2));
+		} else {
+		    argsLeft /= 2;
+		    i += (((argsLeft + 1) / 2));
+		}
+		continue;
+	    } // if
+		
+	    // If argument is truncated to be input's size and then equals that input, return the entire argument
+	    if (args[i].substring(0, input.length()).equalsIgnoreCase(input)) {
+		return args[i];
+	    } else if ((args[i].substring(0, input.length()).compareTo(input)) > 0) {		
+		argsLeft /= 2;
+		i -= ((argsLeft + 1) / 2);
+	    } else {
+		argsLeft /= 2;
+		i += ((argsLeft + 1) / 2);
+	    } // if/elseif/else	    
+	} // while
+
+	return null;
+	
+    } //getValidStringFromInput
+    
+} // Binary Search
