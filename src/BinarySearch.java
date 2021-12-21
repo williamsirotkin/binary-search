@@ -17,37 +17,49 @@ public class BinarySearch {
 	int argsLeft = args.length - 1;
 
 	for (int j = 0; j < args.length; j++) {
-	    System.out.println(args[j]);
-	}
+	    //System.out.println(args[j]);
+	} // for
 	System.out.println("Input String: " + input);
 
 	while (argsLeft > 0) {
-	    //Ensuring input argument could even possibly be the input string
-	    if (args[i].length() < input.length()) {
-		if (args[i].compareTo(input.substring(0, args[i].length())) > 0) {
-		    argsLeft /= 2;
-		    i -= (((argsLeft + 1) / 2));
-		} else {
-		    argsLeft /= 2;
-		    i += (((argsLeft + 1) / 2));
-		}
-		continue;
-	    } // if
-		
-	    // If argument is truncated to be input's size and then equals that input, return the entire argument
+	    argsLeft /= 2;
+
+	    args[i] = ensureStringIsLargeEnough(args[i], input.length()); // now args[i] will be atleast as long as input
+
+	    //Checks if argument contains the input
+	    //Contains means that the substring of the argument evaluated from 0 to the (input.length() - 1) index of the argument is equal to input
+	    //If the contains the input then this method returns the argument 
 	    if (args[i].substring(0, input.length()).equalsIgnoreCase(input)) {
 		return args[i];
-	    } else if ((args[i].substring(0, input.length()).compareTo(input)) > 0) {		
-		argsLeft /= 2;
-		i -= ((argsLeft + 1) / 2);
+	    } // if
+
+	    //From this point, the given argument did not contain the input, so we check if the input is greater than or less than our argument
+	    //We do this to know which side of the sorted array we should be checking using binary search, essentially trying to cut the problem in half
+	    if (args[i].substring(0, input.length()).compareToIgnoreCase(input) > 0) {		
+		i -= (argsLeft + 2) / 2;
 	    } else {
-		argsLeft /= 2;
-		i += ((argsLeft + 1) / 2);
-	    } // if/elseif/else	    
+		i += (argsLeft + 1) / 2;
+	    } //if/else
+	    
 	} // while
 
 	return null;
 	
     } //getValidStringFromInput
-    
+
+    /**
+     * Concatenates string arg with "A"s until it is the length of input. 
+     *
+     * @param arg the argument to concatenate
+     * @param length the length to concatenate this string to
+     */
+    private String ensureStringIsLargeEnough(String arg, int length) {
+	for (int i = 0; i < length - arg.length(); i = i) {
+	    arg = arg.concat("A");
+	}
+
+	return arg;
+    } // ensureStringIsLargeEnough
+   
 } // Binary Search
+
